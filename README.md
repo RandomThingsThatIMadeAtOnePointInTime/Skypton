@@ -1,4 +1,4 @@
-# Skypton
+# Skypton - http://scarsz.github.io/Skypton/
 An extensible, plugin-driven Skype bot
 
 # Plugins

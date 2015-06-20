@@ -147,7 +147,9 @@ namespace Skypton
         static void listPlugins()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("> Plugins");
+            Console.Write(">");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(" Plugins");
 
             foreach (var plugin in pluginDictionary)
             {

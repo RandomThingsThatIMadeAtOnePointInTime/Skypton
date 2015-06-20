@@ -59,7 +59,7 @@ namespace Skypton
         {
             // Inform about processing command
             writeInfo(String.Format("Processor: processing command received from \"{0}\": {1}", sender, command), "process");
-
+            
             // Assign string to plugin that can process the command
             IPlugin plugin = null;
 
@@ -95,7 +95,7 @@ namespace Skypton
             // Write result to console
             writeInfo(String.Format("-> {0}", result), "process");
 
-            // Send result to the sender if it wasn't us that executed the message
+            // Send result
             if (sender != skype.CurrentUserHandle)
                 skype.SendMessage(sender, result);
 
@@ -143,7 +143,7 @@ namespace Skypton
         }
         static void loadConfig()
         {
-            // Build ID ("Build #")
+            // Build ID ("#")
             if (ini.IniReadValue("Build") == String.Empty || !Regex.IsMatch(ini.IniReadValue("Build"), @"^\d+$"))
                 ini.IniWriteValue("Build", buildId);
             build = "Build " + ini.IniReadValue("Build");

@@ -31,9 +31,6 @@ namespace Skypton
         static IniHandler ini = new IniHandler(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "") + "\\Skypton.ini");
         // Queues, don't touch
         static List<ChatMessage> commandQueue = new List<ChatMessage>();
-        //static List<string> commandQueueCommand = new List<string>();
-        //static List<string> commandQueueSender = new List<string>();
-        static bool commandQueueProcessing = false;
 
         // Save foreground color to be restored later
         static ConsoleColor oldColor = Console.ForegroundColor;
@@ -51,13 +48,12 @@ namespace Skypton
             {
                 if (commandQueue.Count > 0)
                 {
-                    commandQueueProcessing = true;
                     string command = commandQueue[0].Body.Remove(0, trigger.Length).ToLower(); //!URBAN CykA -> urban cyka
                     string sender = commandQueue[0].Sender.Handle;
                     ProcessCommand(command, sender);
                     commandQueue.RemoveAt(0);
                 }
-                else { commandQueueProcessing = false; Thread.Sleep(100); }
+                else { Thread.Sleep(100); }
             }
         }
         static string ProcessCommand(string command, string sender)
@@ -117,6 +113,7 @@ namespace Skypton
             Console.WriteLine("done");
             skype.MessageStatus += new _ISkypeEvents_MessageStatusEventHandler(MessageReceived);
             Console.WriteLine("Initialization done\n");
+            listPlugins();
         }
         static void loadConfig()
         {
@@ -149,6 +146,16 @@ namespace Skypton
                 if (!pluginCommandDictionary.ContainsKey(item.Commands))
                     pluginCommandDictionary.Add(item.Commands, item);
             }
+        }
+        static void listPlugins()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("> Plugins");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            foreach (var plugin in pluginDictionary)
+                Console.WriteLine(plugin.Value.Name + " v" + plugin.Value.Version + " - " + plugin.Value.Description);
+            Console.WriteLine();
         }
         static string runPlugin(string command, IPlugin plugin)
         {

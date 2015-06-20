@@ -2,20 +2,16 @@
 using SKYPE4COMLib;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Plugin_Ping
 {
     public class Plugin : IPlugin
     {
-        static readonly string pluginName = "Urban Dictionary";
+        static readonly string pluginName = "Ping!";
         static readonly string pluginAuthor = "Scarsz";
         static readonly string pluginVersion = "1";
-        static readonly string pluginDescription = "Get the top definition of a word from the Urban Dictionary";
-        static readonly string[] pluginCommands = {"urban"};
+        static readonly string pluginDescription = "Pong!";
+        static readonly string[] pluginCommands = {"ping"};
 
         public string Name { get { return pluginName; } }
         public string Author { get { return pluginAuthor; } }
@@ -25,8 +21,7 @@ namespace Plugin_Ping
 
         public string Main(string command, Skype skype)
         {
-            string result = "";
-            return result;
+            return "Pong!";
         }
     }
 }

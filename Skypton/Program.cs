@@ -101,7 +101,7 @@ namespace Skypton
 
             // Write white line in console to show breaks between messages
             ConsoleColor oldColor = Console.BackgroundColor;
-            Console.BackgroundColor = ConsoleColor.DarkCyan;
+            Console.BackgroundColor = ConsoleColor.White;
             for (int i = 0; i < Console.BufferWidth; i++)
                 Console.Write(" ");
             Console.BackgroundColor = oldColor;

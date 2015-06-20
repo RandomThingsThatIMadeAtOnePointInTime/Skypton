@@ -39,7 +39,12 @@ namespace Plugin_Ping
                         result = parse[Array.IndexOf(parse, line) + 1];
                         break;
                     }
-            return HttpUtility.HtmlDecode(result).Replace("<br>", "").Replace("<br/>", "");
+            result = HttpUtility.HtmlDecode(result).Replace("<br>", "").Replace("<br/>", "");
+
+            // This is the result when a query has no definition
+            if (result == "</textarea></div>") { result = "No definition found"; }
+
+            return result;
         }
     }
 }

@@ -14,27 +14,27 @@ using System.Threading;
 
 namespace Skypton
 {
-    class Program
+    public class Program
     {
         // Config stuff, don't touch
-        static string buildId = "1";
-        static string build;
-        static string pluginsFolder;
-        static string trigger;
-        static string[] adminList;
-        static bool loggingEnabled;
-        static string logFile;
+        public static string buildId = "1";
+        public static string build;
+        public static string pluginsFolder;
+        public static string trigger;
+        public static List<string> adminList = new List<string>();
+        public static bool loggingEnabled;
+        public static string logFile;
 
         // Plugin loader information, don't touch
-        static Dictionary<string, IPlugin> pluginDictionary = new Dictionary<string, IPlugin>();
-        static Dictionary<string[], IPlugin> pluginCommandDictionary = new Dictionary<string[], IPlugin>();
-        static ICollection<IPlugin> plugins;
+        public static Dictionary<string, IPlugin> pluginDictionary = new Dictionary<string, IPlugin>();
+        public static Dictionary<string[], IPlugin> pluginCommandDictionary = new Dictionary<string[], IPlugin>();
+        public static ICollection<IPlugin> plugins;
         // Skype information, don't touch
-        static Skype skype = new Skype();
+        public static Skype skype = new Skype();
         // INI handler, don't touch
-        static IniHandler ini = new IniHandler(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "") + "\\Skypton.ini");
+        public static IniHandler ini = new IniHandler(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "") + "\\Skypton.ini");
         // Queues, don't touch
-        static List<ChatMessage> commandQueue = new List<ChatMessage>();
+        public static List<ChatMessage> commandQueue = new List<ChatMessage>();
         
         static void Main(string[] args)
         {
@@ -83,14 +83,14 @@ namespace Skypton
                 // Check to see if the plugin is admin only, if so don't run it if not admin
                 if (plugin.AdminOnly)
                     if (checkIfAdmin(sender))
-                        result = runPlugin(command, plugin);
+                        result = runPlugin(command, sender, plugin);
                     else
                     {
                         result = "Command not found: " + command;
                         writeInfo(sender + " tried to issue command \"" + command + "\" which is an admin-only command!", "severe");
                     }
                 else
-                    result = runPlugin(command, plugin);
+                    result = runPlugin(command, sender, plugin);
             }
             else { result = "Command not found: " + command; }
 
@@ -163,7 +163,8 @@ namespace Skypton
             // Admins ("somebody1,somebody2,somebody3")
             if (ini.IniReadValue("Admins") == String.Empty)
                 ini.IniWriteValue("Admins", "");
-            adminList = ini.IniReadValue("Admins").Split(',');
+            foreach (string admin in ini.IniReadValue("Admins").Split(','))
+                adminList.Add(admin);
 
             // Logging (true, "Skypton.log")
             if (ini.IniReadValue("LoggingEnabled") == String.Empty)
@@ -211,12 +212,12 @@ namespace Skypton
             }
             Console.WriteLine();
         }
-        static string runPlugin(string command, IPlugin plugin)
+        static string runPlugin(string command, string sender, IPlugin plugin)
         {
-            return plugin.Main(command, skype);
+            return plugin.Main(command, sender, skype);
         }
 
-        static bool checkIfAdmin(string name)
+        public static bool checkIfAdmin(string name)
         {
             return adminList.Contains(name);
         }

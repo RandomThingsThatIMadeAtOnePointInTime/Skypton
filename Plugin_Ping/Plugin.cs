@@ -21,7 +21,7 @@ namespace Plugin_Ping
         public bool AdminOnly { get { return pluginAdminOnly; } }
         public string[] Commands { get { return pluginCommands; } }
 
-        public string Main(string command, Skype skype)
+        public string Main(string command, string sender, Skype skype)
         {
             return "Pong!";
         }

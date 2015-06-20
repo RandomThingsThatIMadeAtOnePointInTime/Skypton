@@ -10,6 +10,6 @@ namespace PluginHandler
         string Description { get; }
         bool AdminOnly { get; }
         string[] Commands { get; }
-        string Main(string command, Skype skype);
+        string Main(string command, string sender, Skype skype);
     }
 }

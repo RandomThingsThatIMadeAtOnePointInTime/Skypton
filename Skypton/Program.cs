@@ -199,7 +199,7 @@ namespace Skypton
             foreach (var plugin in pluginDictionary)
             {
                 if (plugin.Value.AdminOnly)
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.ForegroundColor = ConsoleColor.Red;
                 else
                     Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write(plugin.Value.Name);

@@ -39,6 +39,7 @@ namespace Skypton
         static void Main(string[] args)
         {
             init();
+            skype.MessageStatus += new _ISkypeEvents_MessageStatusEventHandler(MessageReceived);
             Thread CommandProcessorThread = new Thread(new ThreadStart(CommandProcessor));
             CommandProcessorThread.Start();
         }
@@ -139,7 +140,6 @@ namespace Skypton
             Console.Write("Attaching to Skype... ");
             skype.Attach(7);
             Console.WriteLine("done");
-            skype.MessageStatus += new _ISkypeEvents_MessageStatusEventHandler(MessageReceived);
             Console.WriteLine("Initialization done\n");
             listPlugins();
         }

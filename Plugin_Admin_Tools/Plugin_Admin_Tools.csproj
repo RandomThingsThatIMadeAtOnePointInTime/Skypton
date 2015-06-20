@@ -66,10 +66,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)Skypton\bin\Debug\Plugins\$(TargetFileName)"</PostBuildEvent>
+    <PostBuildEvent>del "$(SolutionDir)Skypton\bin\Debug\Plugins\$(TargetFileName)"
+copy "$(TargetPath)" "$(SolutionDir)Skypton\bin\Debug\Plugins\$(TargetFileName)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>del "$(SolutionDir)Skypton\bin\Debug\Plugins\$(TargetFileName)"</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

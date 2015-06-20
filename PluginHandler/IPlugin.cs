@@ -8,6 +8,7 @@ namespace PluginHandler
         string Author { get; }
         string Version { get; }
         string Description { get; }
+        bool AdminOnly { get; }
         string[] Commands { get; }
         string Main(string command, Skype skype);
     }

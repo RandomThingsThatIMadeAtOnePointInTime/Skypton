@@ -11,12 +11,14 @@ namespace Plugin_Ping
         static readonly string pluginAuthor = "Scarsz";
         static readonly string pluginVersion = "1";
         static readonly string pluginDescription = "Pong!";
+        static readonly bool pluginAdminOnly = true;
         static readonly string[] pluginCommands = {"ping"};
 
         public string Name { get { return pluginName; } }
         public string Author { get { return pluginAuthor; } }
         public string Version { get { return pluginVersion; } }
         public string Description { get { return pluginDescription; } }
+        public bool AdminOnly { get { return pluginAdminOnly; } }
         public string[] Commands { get { return pluginCommands; } }
 
         public string Main(string command, Skype skype)

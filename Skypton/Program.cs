@@ -31,6 +31,8 @@ namespace Skypton
         static IniHandler ini = new IniHandler(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "") + "\\Skypton.ini");
         // Queues, don't touch
         static List<ChatMessage> commandQueue = new List<ChatMessage>();
+        // Admin array, don't touch
+        static string[] adminList;
 
         static void Main(string[] args)
         {
@@ -74,8 +76,21 @@ namespace Skypton
             string result;
 
             // Check to make sure we have a plugin able to process the command, if we have a plugin for it process the command, else unknown
-            if (plugin != null) { result = runPlugin(command, plugin); } // runPlugin("urban cyka");
-            else { result = "Command not found: "; }
+            if (plugin != null) 
+            {
+                // Check to see if the plugin is admin only, if so don't run it if not admin
+                if (plugin.AdminOnly)
+                    if (checkIfAdmin(sender))
+                        result = runPlugin(command, plugin);
+                    else
+                    {
+                        result = "Command not found: " + command;
+                        writeInfo(sender + " tried to issue command \"" + command + "\" which is an admin-only command!", "severe");
+                    }
+                else
+                    result = runPlugin(command, plugin);
+            }
+            else { result = "Command not found: " + command; }
 
             // Write result to console
             writeInfo(String.Format("-> {0}", result), "process");
@@ -130,8 +145,8 @@ namespace Skypton
         {
             // Build ID ("Build #")
             if (ini.IniReadValue("Build") == String.Empty || !Regex.IsMatch(ini.IniReadValue("Build"), @"^\d+$"))
-                ini.IniWriteValue("Build", "Build " + buildId);
-            build = ini.IniReadValue("Build");
+                ini.IniWriteValue("Build", buildId);
+            build = "Build " + ini.IniReadValue("Build");
 
             // Plugins folder ("Plugins")
             if (ini.IniReadValue("PluginsFolder") == String.Empty)
@@ -142,6 +157,11 @@ namespace Skypton
             if (ini.IniReadValue("Trigger") == String.Empty)
                 ini.IniWriteValue("Trigger", "!");
             trigger = ini.IniReadValue("Trigger");
+
+            // Admins ("somebody1,somebody2,somebody3")
+            if (ini.IniReadValue("Admins") == String.Empty)
+                ini.IniWriteValue("Admins", "");
+            adminList = ini.IniReadValue("Admins").Split(',');
         }
         static void loadPlugins()
         {
@@ -167,7 +187,10 @@ namespace Skypton
 
             foreach (var plugin in pluginDictionary)
             {
-                Console.ForegroundColor = ConsoleColor.Cyan;
+                if (plugin.Value.AdminOnly)
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                else
+                    Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write(plugin.Value.Name);
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Write(" v" + plugin.Value.Version);
@@ -182,10 +205,16 @@ namespace Skypton
         {
             return plugin.Main(command, skype);
         }
+
+        static bool checkIfAdmin(string name)
+        {
+            return adminList.Contains(name);
+        }
         static void writeInfo(string info, string reporter)
         {
             if (reporter == "receive") { Console.ForegroundColor = ConsoleColor.Green; }
             if (reporter == "process") { Console.ForegroundColor = ConsoleColor.Magenta; }
+            if (reporter == "severe") { Console.ForegroundColor = ConsoleColor.Red; }
 
             Console.WriteLine("[{0}] {1}", DateTime.Now, info);
         }

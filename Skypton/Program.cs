@@ -53,7 +53,7 @@ namespace Skypton
                 else { Thread.Sleep(100); }
             }
         }
-        static string ProcessCommand(string command, string sender)
+        static void ProcessCommand(string command, string sender)
         {
             // Inform about processing command
             writeInfo(String.Format("Processor: processing command received from \"{0}\": {1}", sender, command), "process");
@@ -73,15 +73,15 @@ namespace Skypton
             // String to store result that will be sent back
             string result;
 
-            // Check to make sure we have a plugin able to process the command
-            if (plugin == null)
-            {
-                result = "Command not found: ";
-                return result;
-            }
+            // Check to make sure we have a plugin able to process the command, if we have a plugin for it process the command, else unknown
+            if (plugin != null) { result = runPlugin(command, plugin); } // runPlugin("urban cyka");
+            else { result = "Command not found: "; }
 
-            result = runPlugin(command, plugin); // runPlugin("urban cyka");
-            return result;
+            // Write result to console
+            writeInfo(String.Format("-> {0}", result), "process");
+
+            // Send result to the sender
+            skype.SendMessage(sender, result);
         }
         static void MessageReceived(ChatMessage msg, TChatMessageStatus status)
         {

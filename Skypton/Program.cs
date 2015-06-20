@@ -151,10 +151,18 @@ namespace Skypton
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("> Plugins");
-            Console.ForegroundColor = ConsoleColor.White;
 
             foreach (var plugin in pluginDictionary)
-                Console.WriteLine(plugin.Value.Name + " v" + plugin.Value.Version + " - " + plugin.Value.Description);
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write(plugin.Value.Name);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(" v" + plugin.Value.Version);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write(" - ");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(plugin.Value.Description);
+            }
             Console.WriteLine();
         }
         static string runPlugin(string command, IPlugin plugin)

@@ -86,8 +86,14 @@ namespace Skypton
         }
         static void MessageReceived(ChatMessage msg, TChatMessageStatus status)
         {
+            // Don't fire for read messages
+            if (msg.Status == TChatMessageStatus.cmsRead)
+                return;
             // Don't do anything unless the received message has the trigger
             if (msg.Body.IndexOf(trigger) != 0)
+                return;
+            // Don't add the message to the queue if it's already there
+            if (commandQueue.Contains(msg))
                 return;
 
             // Inform about received command

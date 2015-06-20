@@ -4,6 +4,7 @@ using SKYPE4COMLib;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Web;
 
 namespace Plugin_Ping
 {
@@ -33,8 +34,7 @@ namespace Plugin_Ping
                 if (line.Contains("class"))
                     if (line.Contains("meaning"))
                         result = parse[Array.IndexOf(parse, line) + 1];
-
-            return result;
+            return HttpUtility.HtmlDecode(result);
         }
     }
 }

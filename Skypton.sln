@@ -4,6 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skypton", "Skypton\Skypton.csproj", "{9ED1209F-6DAF-4CF4-819F-C14A146FF87E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{20485C8F-037E-47BC-8738-94209B8ADD23} = {20485C8F-037E-47BC-8738-94209B8ADD23}
+		{A0C9F3F4-07CD-432A-9EAE-47B0962EA9C6} = {A0C9F3F4-07CD-432A-9EAE-47B0962EA9C6}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginHandler", "PluginHandler\PluginHandler.csproj", "{A0C9F3F4-07CD-432A-9EAE-47B0962EA9C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin_Ping", "Plugin_Ping\Plugin_Ping.csproj", "{20485C8F-037E-47BC-8738-94209B8ADD23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,14 @@ Global
 		{9ED1209F-6DAF-4CF4-819F-C14A146FF87E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9ED1209F-6DAF-4CF4-819F-C14A146FF87E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9ED1209F-6DAF-4CF4-819F-C14A146FF87E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0C9F3F4-07CD-432A-9EAE-47B0962EA9C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C9F3F4-07CD-432A-9EAE-47B0962EA9C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C9F3F4-07CD-432A-9EAE-47B0962EA9C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C9F3F4-07CD-432A-9EAE-47B0962EA9C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20485C8F-037E-47BC-8738-94209B8ADD23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20485C8F-037E-47BC-8738-94209B8ADD23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20485C8F-037E-47BC-8738-94209B8ADD23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20485C8F-037E-47BC-8738-94209B8ADD23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

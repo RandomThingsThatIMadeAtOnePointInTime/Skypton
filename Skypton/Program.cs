@@ -83,6 +83,13 @@ namespace Skypton
             // Send result to the sender if it wasn't us that executed the message
             if (sender != skype.CurrentUserHandle)
                 skype.SendMessage(sender, result);
+
+            // Write white line in console to show breaks between messages
+            ConsoleColor oldColor = Console.BackgroundColor;
+            Console.BackgroundColor = ConsoleColor.DarkCyan;
+            for (int i = 0; i < Console.BufferWidth; i++)
+                Console.Write(" ");
+            Console.BackgroundColor = oldColor;
         }
         static void MessageReceived(ChatMessage msg, TChatMessageStatus status)
         {

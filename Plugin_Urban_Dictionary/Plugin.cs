@@ -33,8 +33,11 @@ namespace Plugin_Ping
             foreach (string line in parse)
                 if (line.Contains("class"))
                     if (line.Contains("meaning"))
+                    {
                         result = parse[Array.IndexOf(parse, line) + 1];
-            return HttpUtility.HtmlDecode(result);
+                        break;
+                    }
+            return HttpUtility.HtmlDecode(result).Replace("<br>", "").Replace("<br/>", "");
         }
     }
 }

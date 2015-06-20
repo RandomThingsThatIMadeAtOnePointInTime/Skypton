@@ -16,10 +16,14 @@ namespace Skypton
 {
     class Program
     {
+        // Config stuff, don't touch
         static string buildId = "1";
         static string build;
         static string pluginsFolder;
         static string trigger;
+        static string[] adminList;
+        static bool loggingEnabled;
+        static string logFile;
 
         // Plugin loader information, don't touch
         static Dictionary<string, IPlugin> pluginDictionary = new Dictionary<string, IPlugin>();
@@ -31,9 +35,7 @@ namespace Skypton
         static IniHandler ini = new IniHandler(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "") + "\\Skypton.ini");
         // Queues, don't touch
         static List<ChatMessage> commandQueue = new List<ChatMessage>();
-        // Admin array, don't touch
-        static string[] adminList;
-
+        
         static void Main(string[] args)
         {
             init();
@@ -162,6 +164,14 @@ namespace Skypton
             if (ini.IniReadValue("Admins") == String.Empty)
                 ini.IniWriteValue("Admins", "");
             adminList = ini.IniReadValue("Admins").Split(',');
+
+            // Logging (true, "Skypton.log")
+            if (ini.IniReadValue("LoggingEnabled") == String.Empty)
+                ini.IniWriteValue("LoggingEnabled", "true");
+            try { loggingEnabled = Convert.ToBoolean(ini.IniReadValue("LoggingEnabled")); } catch { loggingEnabled = true; }
+            if (ini.IniReadValue("LogFile") == String.Empty)
+                ini.IniWriteValue("LogFile", "Skypton.log");
+            logFile = ini.IniReadValue("LogFile");
         }
         static void loadPlugins()
         {
@@ -216,7 +226,13 @@ namespace Skypton
             if (reporter == "process") { Console.ForegroundColor = ConsoleColor.Magenta; }
             if (reporter == "severe") { Console.ForegroundColor = ConsoleColor.Red; }
 
+            // Show to console
             Console.WriteLine("[{0}] {1}", DateTime.Now, info);
+
+            // Write to log
+            if (loggingEnabled)
+                using (StreamWriter sw = File.AppendText(logFile))
+                    sw.WriteLine(String.Format("[{0}] {1}", DateTime.Now, info));
         }
     }
 }

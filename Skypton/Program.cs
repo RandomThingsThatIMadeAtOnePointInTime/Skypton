@@ -30,8 +30,9 @@ namespace Skypton
         // INI handler, don't touch
         static IniHandler ini = new IniHandler(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "") + "\\Skypton.ini");
         // Queues, don't touch
-        static List<string> commandQueueCommand = new List<string>();
-        static List<string> commandQueueSender = new List<string>();
+        static List<ChatMessage> commandQueue = new List<ChatMessage>();
+        //static List<string> commandQueueCommand = new List<string>();
+        //static List<string> commandQueueSender = new List<string>();
         static bool commandQueueProcessing = false;
 
         // Save foreground color to be restored later
@@ -40,20 +41,21 @@ namespace Skypton
         static void Main(string[] args)
         {
             init();
+            Thread CommandProcessorThread = new Thread(new ThreadStart(CommandProcessor));
+            CommandProcessorThread.Start();
         }
 
         static void CommandProcessor()
         {
             while (true)
             {
-                if (commandQueueCommand.Count > 0)
+                if (commandQueue.Count > 0)
                 {
                     commandQueueProcessing = true;
-                    string command = commandQueueCommand[0];
-                    string sender = commandQueueSender[0];
+                    string command = commandQueue[0].Body.Remove(0, trigger.Length).ToLower(); //!URBAN CykA -> urban cyka
+                    string sender = commandQueue[0].Sender.Handle;
                     ProcessCommand(command, sender);
-                    commandQueueCommand.RemoveAt(0);
-                    commandQueueSender.RemoveAt(0);
+                    commandQueue.RemoveAt(0);
                 }
                 else { commandQueueProcessing = false; Thread.Sleep(100); }
             }
@@ -88,21 +90,16 @@ namespace Skypton
             result = runPlugin(command, plugin); // runPlugin("urban cyka");
             return result;
         }
-
         static void MessageReceived(ChatMessage msg, TChatMessageStatus status)
         {
             // Don't do anything unless the received message has the trigger
             if (msg.Body.IndexOf(trigger) != 0)
                 return;
 
-            // Remove trigger from command
-            string message = msg.Body.Remove(0, trigger.Length).ToLower();
-
             // Inform about received command
-            writeInfo(String.Format("Skype: received command from \"{0}\": {1}", msg.Sender.Handle, message), "receive");
+            writeInfo(String.Format("Skype: received command from \"{0}\": {1}", msg.Sender.Handle, msg.Body.Remove(0, trigger.Length).ToLower()), "receive");
 
-            commandQueueCommand.Add(message);
-            commandQueueSender.Add(msg.Sender.Handle);
+            commandQueue.Add(msg);
         }
 
         static void init()

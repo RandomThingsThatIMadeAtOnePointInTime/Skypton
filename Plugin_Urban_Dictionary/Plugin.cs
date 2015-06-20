@@ -2,6 +2,8 @@
 using SKYPE4COMLib;
 
 using System;
+using System.Collections.Generic;
+using System.Net;
 
 namespace Plugin_Ping
 {
@@ -21,7 +23,17 @@ namespace Plugin_Ping
 
         public string Main(string command, Skype skype)
         {
-            string result = "";
+            string result = "No definition found";
+
+            string term = command.Remove(0, command.Split(' ')[0].Length + 1).Replace(" ", "+"); // bye+felicia
+            string[] parse;
+            using (WebClient wc = new WebClient())
+                parse = wc.DownloadString("http://www.urbandictionary.com/define.php?term=" + term).Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string line in parse)
+                if (line.Contains("class"))
+                    if (line.Contains("meaning"))
+                        result = parse[Array.IndexOf(parse, line) + 1];
+
             return result;
         }
     }

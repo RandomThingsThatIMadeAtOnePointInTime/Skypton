@@ -80,8 +80,9 @@ namespace Skypton
             // Write result to console
             writeInfo(String.Format("-> {0}", result), "process");
 
-            // Send result to the sender
-            skype.SendMessage(sender, result);
+            // Send result to the sender if it wasn't us that executed the message
+            if (sender != skype.CurrentUserHandle)
+                skype.SendMessage(sender, result);
         }
         static void MessageReceived(ChatMessage msg, TChatMessageStatus status)
         {

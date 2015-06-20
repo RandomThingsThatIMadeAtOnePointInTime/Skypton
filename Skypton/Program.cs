@@ -50,7 +50,7 @@ namespace Skypton
             {
                 if (commandQueue.Count > 0)
                 {
-                    string command = commandQueue[0].Body.Remove(0, trigger.Length).ToLower(); //!URBAN CykA -> urban cyka
+                    string command = commandQueue[0].Body.Remove(0, trigger.Length); //!URBAN CykA -> urban cyka
                     string sender = commandQueue[0].Sender.Handle;
                     ProcessCommand(command, sender);
                     commandQueue.RemoveAt(0);
@@ -69,7 +69,7 @@ namespace Skypton
             // Find the first plugin in order from first to last loaded that can process this command
             foreach (var pluginItem in pluginCommandDictionary)
                 foreach (string commandFromArray in pluginItem.Key)
-                    if (commandFromArray == command.Split(' ')[0])
+                    if (commandFromArray.ToLower() == command.Split(' ')[0].ToLower())
                     {
                         plugin = pluginItem.Value;
                         break;

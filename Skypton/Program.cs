@@ -32,9 +32,6 @@ namespace Skypton
         // Queues, don't touch
         static List<ChatMessage> commandQueue = new List<ChatMessage>();
 
-        // Save foreground color to be restored later
-        static ConsoleColor oldColor = Console.ForegroundColor;
-
         static void Main(string[] args)
         {
             init();

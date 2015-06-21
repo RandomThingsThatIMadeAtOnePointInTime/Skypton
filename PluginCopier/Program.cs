@@ -21,7 +21,11 @@ namespace PluginCopier
                             files.Add(file);
             
             Console.WriteLine("\nCopying plugins to build folder...");
-            Directory.CreateDirectory("Plugins");
+            if (Directory.Exists("Plugins"))
+                foreach (string plugin in Directory.EnumerateFiles("Plugins", "Plugin_*.dll", SearchOption.AllDirectories))
+                    File.Delete(plugin);
+            else
+                Directory.CreateDirectory("Plugins");
             foreach (string plugin in files)
             {
                 Console.WriteLine("Coping " + plugin + " -> Plugins\\" + plugin.Split('\\').Last());

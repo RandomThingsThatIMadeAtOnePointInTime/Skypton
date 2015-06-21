@@ -12,7 +12,7 @@ namespace Plugin_Ping
         static readonly string pluginVersion = "1";
         static readonly string pluginDescription = "Pong!";
         static readonly bool pluginAdminOnly = false;
-        static readonly string[] pluginCommands = {"ping"};
+        static readonly string[] pluginCommands = { "ping" };
 
         public string Name { get { return pluginName; } }
         public string Author { get { return pluginAuthor; } }

@@ -50,7 +50,7 @@ namespace Skypton
             {
                 if (commandQueue.Count > 0)
                 {
-                    string command = commandQueue[0].Body.Remove(0, trigger.Length); //!URBAN CykA -> urban cyka
+                    string command = commandQueue[0].Body.Remove(0, trigger.Length);
                     string sender = commandQueue[0].Sender.Handle;
                     ProcessCommand(command, sender);
                     commandQueue.RemoveAt(0);

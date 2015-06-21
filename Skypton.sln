@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skypton", "Skypton\Skypton.csproj", "{9ED1209F-6DAF-4CF4-819F-C14A146FF87E}"
 	ProjectSection(ProjectDependencies) = postProject
-		{D740B73C-496A-47F9-BCBB-ABD37D3074A3} = {D740B73C-496A-47F9-BCBB-ABD37D3074A3}
-		{20485C8F-037E-47BC-8738-94209B8ADD23} = {20485C8F-037E-47BC-8738-94209B8ADD23}
 		{A0C9F3F4-07CD-432A-9EAE-47B0962EA9C6} = {A0C9F3F4-07CD-432A-9EAE-47B0962EA9C6}
 	EndProjectSection
 EndProject
@@ -17,6 +15,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin_Urban_Dictionary", "Plugin_Urban_Dictionary\Plugin_Urban_Dictionary.csproj", "{D740B73C-496A-47F9-BCBB-ABD37D3074A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin_Admin_Tools", "Plugin_Admin_Tools\Plugin_Admin_Tools.csproj", "{F9D93AB7-E9C4-4718-9238-60F983B3BEF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginCopier", "PluginCopier\PluginCopier.csproj", "{472282F9-279A-4B0C-A7FB-2F75D3055A4A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D740B73C-496A-47F9-BCBB-ABD37D3074A3} = {D740B73C-496A-47F9-BCBB-ABD37D3074A3}
+		{20485C8F-037E-47BC-8738-94209B8ADD23} = {20485C8F-037E-47BC-8738-94209B8ADD23}
+		{F9D93AB7-E9C4-4718-9238-60F983B3BEF2} = {F9D93AB7-E9C4-4718-9238-60F983B3BEF2}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +49,10 @@ Global
 		{F9D93AB7-E9C4-4718-9238-60F983B3BEF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9D93AB7-E9C4-4718-9238-60F983B3BEF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9D93AB7-E9C4-4718-9238-60F983B3BEF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{472282F9-279A-4B0C-A7FB-2F75D3055A4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{472282F9-279A-4B0C-A7FB-2F75D3055A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{472282F9-279A-4B0C-A7FB-2F75D3055A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{472282F9-279A-4B0C-A7FB-2F75D3055A4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

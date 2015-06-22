@@ -32,7 +32,9 @@ namespace Skypton
         public static IniHandler ini = new IniHandler(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "") + "\\Skypton.ini");
         // Queue, don't touch
         public static List<ChatMessage> commandQueue = new List<ChatMessage>();
-        
+        // Received messages, don't touch
+        public static List<int> receivedMessages = new List<int>();
+
         static void Main(string[] args)
         {
             init();
@@ -49,16 +51,17 @@ namespace Skypton
                 {
                     string command = commandQueue[0].Body.Remove(0, trigger.Length);
                     string sender = commandQueue[0].Sender.Handle;
-                    ProcessCommand(command, sender);
+                    string guid = commandQueue[0].Id.ToString();
+                    ProcessCommand(command, sender, guid);
                     commandQueue.RemoveAt(0);
                 }
                 else { Thread.Sleep(100); }
             }
         }
-        static void ProcessCommand(string command, string sender)
+        static void ProcessCommand(string command, string sender, string id)
         {
             // Inform about processing command
-            writeInfo(String.Format("Processor: processing command received from \"{0}\": {1}", sender, command), "process");
+            writeInfo(String.Format("Processor: processing command received from \"{0}\": {1}\nID: {2}", sender, command, id), "process");
             
             // Assign string to plugin that can process the command
             IPlugin plugin = null;
@@ -113,9 +116,10 @@ namespace Skypton
         }
         static void MessageReceived(ChatMessage msg, TChatMessageStatus status)
         {
-            // Don't fire for read messages
-            if (msg.Status == TChatMessageStatus.cmsRead)
+            // Don't process a command that's already been processed
+            if (receivedMessages.Contains(msg.Id))
                 return;
+            receivedMessages.Add(msg.Id);
             // Don't do anything unless the received message has the trigger
             if (msg.Body.IndexOf(trigger) != 0)
                 return;

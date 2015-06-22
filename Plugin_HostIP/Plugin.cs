@@ -24,6 +24,9 @@ namespace Plugin_HostIP
 
         public string Main(string command, string sender, Skype skype)
         {
+            if (command.Split(' ').Length == 0)
+                return "You need to specify a host to resolve!";
+            
             return Dns.GetHostAddresses(command.Split(' ')[1])[0].ToString();
         }
     }

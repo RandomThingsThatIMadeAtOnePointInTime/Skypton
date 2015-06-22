@@ -30,7 +30,7 @@ namespace Skypton
         public static Skype skype = new Skype();
         // INI handler, don't touch
         public static IniHandler ini = new IniHandler(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "") + "\\Skypton.ini");
-        // Queues, don't touch
+        // Queue, don't touch
         public static List<ChatMessage> commandQueue = new List<ChatMessage>();
         
         static void Main(string[] args)

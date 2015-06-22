@@ -92,12 +92,17 @@ namespace Skypton
             }
             else { result = "Command not found: " + command; }
 
+            // Check to see if plugin already handled the response
+            if (result == String.Empty)
+                result = "Response handled by plugin";
+
             // Write result to console
             writeInfo(String.Format("-> {0}", result), "process");
 
             // Send result
-            if (sender != skype.CurrentUserHandle)
-                skype.SendMessage(sender, result);
+            if (result != "Response handled by plugin")
+                if (sender != skype.CurrentUserHandle)
+                    skype.SendMessage(sender, result);
 
             // Write white line in console to show breaks between messages
             ConsoleColor oldColor = Console.BackgroundColor;

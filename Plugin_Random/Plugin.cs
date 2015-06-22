@@ -10,7 +10,7 @@ namespace Plugin_Random
         static readonly string pluginName = "Random";
         static readonly string pluginAuthor = "Scarsz";
         static readonly string pluginVersion = "1";
-        static readonly string pluginDescription = "Generates a number between the two given numbers (inclusive)";
+        static readonly string pluginDescription = "Generates a number between the two given numbers. (inclusive)";
         static readonly bool pluginAdminOnly = false;
         static readonly string[] pluginCommands = { "random" };
 

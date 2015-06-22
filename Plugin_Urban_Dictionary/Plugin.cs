@@ -13,7 +13,7 @@ namespace Plugin_Ping
         static readonly string pluginName = "Urban Dictionary";
         static readonly string pluginAuthor = "Scarsz";
         static readonly string pluginVersion = "1";
-        static readonly string pluginDescription = "Gets the top definition of an Urban Dictionary phrase";
+        static readonly string pluginDescription = "Gets the top definition of an Urban Dictionary phrase.";
         static readonly bool pluginAdminOnly = false;
         static readonly string[] pluginCommands = { "urban" };
 

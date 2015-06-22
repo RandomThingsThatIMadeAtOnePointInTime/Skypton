@@ -23,8 +23,10 @@ namespace Plugin_Sudo
 
         public string Main(string command, string sender, Skype skype)
         {
-            string whatToSay = command.Remove(0, command.Split(' ')[0].Length);
-            return whatToSay;
+            if (command.Remove(0, command.Split(' ')[0].Length) == "")
+                return "You can't just expect me to pull words out of my ass, here. Give me something to say.";
+
+            return command.Remove(0, command.Split(' ')[0].Length);
         }
     }
 }

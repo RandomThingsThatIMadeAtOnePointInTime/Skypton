@@ -28,9 +28,7 @@ namespace Plugin_Ping
             {
                 string response = "";
                 foreach (string commandFromPlugin in plugin.Commands)
-                {
                     response += commandFromPlugin + ", ";
-                }
                 response = response.Remove(response.Length - 2, 2);
                 response += " - " + plugin.Description;
                 skype.SendMessage(sender, response);

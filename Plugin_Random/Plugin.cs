@@ -23,6 +23,8 @@ namespace Plugin_Random
 
         public string Main(string command, string sender, Skype skype)
         {
+            if (command.Split(' ').Length < 3)
+                return "You need to give me 2 numbers.";
             int number1;
             if (!int.TryParse(command.Split(' ')[1], out number1))
                 return "Number 1 isn't a valid integer!";

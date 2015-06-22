@@ -26,13 +26,20 @@ namespace Plugin_Ping
         {
             foreach (IPlugin plugin in Skypton.Program.pluginDictionary.Values)
             {
-                string response = "";
-                foreach (string commandFromPlugin in plugin.Commands)
-                    response += commandFromPlugin + ", ";
-                response = response.Remove(response.Length - 2, 2);
-                response += " - " + plugin.Description;
-                skype.SendMessage(sender, response);
-                Console.WriteLine("> " + response);
+                bool goodToSay = true;
+                if (plugin.AdminOnly)
+                    if (!Skypton.Program.checkIfAdmin(sender))
+                        goodToSay = false;
+                if (goodToSay)
+                {
+                    string response = "";
+                    foreach (string commandFromPlugin in plugin.Commands)
+                        response += commandFromPlugin + ", ";
+                    response = response.Remove(response.Length - 2, 2);
+                    response += " - " + plugin.Description;
+                    skype.SendMessage(sender, response);
+                    Console.WriteLine("> " + response);
+                }
             }
             return String.Empty;
         }

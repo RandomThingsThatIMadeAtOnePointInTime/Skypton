@@ -116,6 +116,8 @@ namespace Skypton
         }
         static void MessageReceived(ChatMessage msg, TChatMessageStatus status)
         {
+            // Mark message as seen
+            msg.Seen = true;
             // Don't process a command that's already been processed
             if (receivedMessages.Contains(msg.Id))
                 return;

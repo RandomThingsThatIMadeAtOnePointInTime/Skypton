@@ -14,13 +14,14 @@ namespace Skypton
     public class Program
     {
         // Config stuff, don't touch
-        public static string buildId = "1";
+        public static string buildId = "2";
         public static string build;
         public static string pluginsFolder;
         public static string trigger;
         public static List<string> adminList = new List<string>();
         public static bool loggingEnabled;
         public static string logFile;
+        public static bool autoAccept;
 
         // Plugin loader information, don't touch
         public static Dictionary<string, IPlugin> pluginDictionary = new Dictionary<string, IPlugin>();
@@ -39,6 +40,7 @@ namespace Skypton
         {
             init();
             skype.MessageStatus += new _ISkypeEvents_MessageStatusEventHandler(MessageReceived);
+            skype.UserAuthorizationRequestReceived += new _ISkypeEvents_UserAuthorizationRequestReceivedEventHandler(ContactReceived);
             Thread CommandProcessorThread = new Thread(new ThreadStart(CommandProcessor));
             CommandProcessorThread.Start();
         }
@@ -65,7 +67,6 @@ namespace Skypton
             
             // Assign string to plugin that can process the command
             IPlugin plugin = null;
-
             // Find the first plugin in order from first to last loaded that can process this command
             foreach (var pluginItem in pluginCommandDictionary)
                 foreach (string commandFromArray in pluginItem.Key)
@@ -116,8 +117,6 @@ namespace Skypton
         }
         static void MessageReceived(ChatMessage msg, TChatMessageStatus status)
         {
-            // Mark message as seen
-            msg.Seen = true;
             // Don't process a command that's already been processed
             if (receivedMessages.Contains(msg.Id))
                 return;
@@ -133,6 +132,12 @@ namespace Skypton
             writeInfo(String.Format("Skype: received command from \"{0}\": {1}", msg.Sender.Handle, msg.Body.Remove(0, trigger.Length).ToLower()), "receive");
 
             commandQueue.Add(msg);
+        }
+        static void ContactReceived(User pUser)
+        {
+            if (pUser.BuddyStatus != TBuddyStatus.budFriend)
+                if (autoAccept)
+                    pUser.BuddyStatus = TBuddyStatus.budFriend;
         }
 
         static void init()
@@ -177,10 +182,17 @@ namespace Skypton
             // Logging (true, "Skypton.log")
             if (ini.IniReadValue("LoggingEnabled") == String.Empty)
                 ini.IniWriteValue("LoggingEnabled", "true");
-            try { loggingEnabled = Convert.ToBoolean(ini.IniReadValue("LoggingEnabled")); } catch { loggingEnabled = true; }
+            try { loggingEnabled = Convert.ToBoolean(ini.IniReadValue("LoggingEnabled")); } 
+            catch { loggingEnabled = true; }
             if (ini.IniReadValue("LogFile") == String.Empty)
                 ini.IniWriteValue("LogFile", "Skypton.log");
             logFile = ini.IniReadValue("LogFile");
+
+            // Auto accept contact requests
+            if (ini.IniReadValue("AutoAcceptContactRequests") == String.Empty)
+                ini.IniWriteValue("AutoAcceptContactRequests", "true");
+            try { autoAccept = Convert.ToBoolean(ini.IniReadValue("AutoAcceptContactRequests")); }
+            catch { autoAccept = true; }
         }
         static void loadPlugins()
         {

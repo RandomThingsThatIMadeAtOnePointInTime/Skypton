@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Web;
 
-namespace Plugin_Ping
+namespace Plugin_Urban_Dictionary
 {
     public class Plugin : IPlugin
     {
